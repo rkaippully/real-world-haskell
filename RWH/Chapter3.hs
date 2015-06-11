@@ -24,17 +24,24 @@ elementCount = foldr count 0
   convert the length of the list from an integer into a floating-point number.)
 -}
 mean :: Fractional a => [a] -> a
+mean [] = 0.0
 mean xs = total / count
   where
     (total, count) = foldr totalAndCount (0.0, 0) xs
     totalAndCount x (t, c) = (t + x, c + 1)
 
 {- |
-Turn a list into a palindrome; i.e., it should read the same both backward and
-forward. For example, given the list [1,2,3], your function should return
-[1,2,3,3,2,1].
+  Turn a list into a palindrome; i.e., it should read the same both backward and
+  forward. For example, given the list [1,2,3], your function should return
+  [1,2,3,3,2,1].
 -}
 palindrome :: [a] -> [a]
 palindrome [] = []
 palindrome (x:[]) = [x, x]
 palindrome (x:xs) = [x] ++ palindrome xs ++ [x]
+
+{- |
+  Write a function that determines whether its input list is a palindrome.
+-}
+isPalindrome :: Eq a => [a] -> Bool
+isPalindrome xs = xs == reverse xs
