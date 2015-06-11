@@ -7,6 +7,8 @@ License     : GPL Version 3
 
 module RWH.Chapter3 where
 
+import Data.List (sortBy)
+import Data.Function
 
 {- |
    Write a function that computes the number of elements in a list. To test it, ensure
@@ -45,3 +47,32 @@ palindrome (x:xs) = [x] ++ palindrome xs ++ [x]
 -}
 isPalindrome :: Eq a => [a] -> Bool
 isPalindrome xs = xs == reverse xs
+
+{- |
+  Create a function that sorts a list of lists based on the length of each sublist. (You
+  may want to look at the sortBy function from the Data.List module.)
+-}
+sortBySubListLength :: [[a]] -> [[a]]
+sortBySubListLength = sortBy (compare `on` length)
+
+{- |
+  Define a function that joins a list of lists together using a separator value:
+  -- file: ch03/Intersperse.hs
+  intersperse :: a -> [[a]] -> [a]
+   The separator should appear between elements of the list, but it should not follow
+  the last element. Your function should behave as follows:
+
+  ghci> :load Intersperse
+  [1 of 1] Compiling Main ( Intersperse.hs, interpreted )
+  Ok, modules loaded: Main.
+  ghci> intersperse ',' []
+  ""
+  ghci> intersperse ',' ["foo"]
+  "foo"
+  ghci> intersperse ',' ["foo","bar","baz","quux"]
+  "foo,bar,baz,quux"
+-}
+intersperse :: a -> [[a]] -> [a]
+intersperse _ [] = []
+intersperse _ (x:[]) = x
+intersperse sep (x:xs) = x ++ [sep] ++ intersperse sep xs

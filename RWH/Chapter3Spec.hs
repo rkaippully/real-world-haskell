@@ -44,3 +44,20 @@ chapter3Specs = hspec $ do
 
     it "returns True for a palindrome list" $ do
       isPalindrome ("racecar" :: String) `shouldBe` True
+
+  describe "Chapter 3 exercise 6" $ do
+    it "returns empty list for empty list" $ do
+      sortBySubListLength ([] :: [[Int]]) `shouldBe` ([] :: [[Int]])
+
+    it "returns sorted list for a non-empty list" $ do
+      sortBySubListLength ([[1,2,3], [1,2], [1]] :: [[Int]]) `shouldBe` ([[1], [1,2], [1,2,3]] :: [[Int]])
+
+  describe "Chapter 3 exercises 7 & 8" $ do
+    it "returns empty list for empty list" $ do
+      intersperse ',' [] `shouldBe` ""
+
+    it "returns same string for a single element list" $ do
+      intersperse ',' ["foo"] `shouldBe` "foo"
+
+    it "adds the separator for larger lists" $ do
+      intersperse ',' ["foo", "bar", "baz", "quux"] `shouldBe` "foo,bar,baz,quux"
