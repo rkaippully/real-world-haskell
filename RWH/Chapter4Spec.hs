@@ -4,6 +4,7 @@
 
 module Main where
 
+import Data.Char
 import Test.Hspec
 
 import RWH.Chapter4
@@ -41,3 +42,6 @@ main = hspec $ do
 
     it "safeInit returns all but the last element for non-empty list" $ do
       safeInit ("abcd"::String) `shouldBe` Just ("abc"::String)
+
+    it "splitWith returns empty list for empty list" $ do
+      splitWith isSpace ("Mary had a\t\tlittle lamb"::String) `shouldBe` ["Mary", "had", "a", "little", "lamb"]

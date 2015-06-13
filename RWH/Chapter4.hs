@@ -36,3 +36,22 @@ safeInit xs = Just (allExceptLast xs)
     allExceptLast (_:[]) = []
     allExceptLast (y:ys) = y : allExceptLast ys
     allExceptLast [] = error "This will never happen, just to avoid a compiler warning"
+
+{- |
+    Write a function splitWith that acts similarly to words but takes a predicate and a
+    list of any type, and then splits its input list on every element for which the predicate
+    returns False:
+    -- file: ch04/ch04.exercises.hs
+    splitWith :: (a -> Bool) -> [a] -> [[a]]
+-}
+splitWith :: (a -> Bool) -> [a] -> [[a]]
+splitWith f xs =
+  let
+    (elm, rest) = accumulateWhile ([], xs)
+    accumulateWhile (e, []) = (e, [])
+    accumulateWhile (e, y:ys) = if f y
+                                then (e, (dropWhile f ys))
+                                else accumulateWhile (e ++ [y], ys)
+  in
+   if null rest then [elm] else [elm] ++ splitWith f rest
+
