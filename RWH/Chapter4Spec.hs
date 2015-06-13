@@ -45,3 +45,8 @@ main = hspec $ do
 
     it "splitWith returns empty list for empty list" $ do
       splitWith isSpace ("Mary had a\t\tlittle lamb"::String) `shouldBe` ["Mary", "had", "a", "little", "lamb"]
+
+    it "transposes text in a file" $ do
+      transposeText "test-data/transpose-input.txt" "test-data/transpose-output.txt"
+      text <- readFile "test-data/transpose-output.txt"
+      text `shouldBe` "hw\neo\nlr\nll\nod\n"

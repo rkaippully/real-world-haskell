@@ -7,6 +7,8 @@ License     : GPL Version 3
 
 module RWH.Chapter4 where
 
+import System.Environment (getArgs)
+
 {- |
     Write your own “safe” definitions of the standard partial list functions, but make
     sure they never fail. As a hint, you might want to consider using the following types:
@@ -50,8 +52,46 @@ splitWith f xs =
     (elm, rest) = accumulateWhile ([], xs)
     accumulateWhile (e, []) = (e, [])
     accumulateWhile (e, y:ys) = if f y
-                                then (e, (dropWhile f ys))
+                                then (e, dropWhile f ys)
                                 else accumulateWhile (e ++ [y], ys)
   in
-   if null rest then [elm] else [elm] ++ splitWith f rest
+   if null rest then [elm] else elm : splitWith f rest
+
+{- |
+    Using the command framework from the earlier section “A Simple Command-Line
+    Framework” on page 71, write a program that prints the first word of each line of
+    its input.
+-}
+interactWith :: (String -> String) -> FilePath -> FilePath -> IO ()
+interactWith function inputFile outputFile = do
+  input <- readFile inputFile
+  writeFile outputFile (function input)
+
+printFirstWord :: IO ()
+printFirstWord = mainWith getFirstWord
+  where mainWith function = do
+          args <- getArgs
+          case args of
+           [input, output] -> interactWith function input output
+           _ -> putStrLn "error: exactly two arguments needed"
+
+getFirstWord :: String -> String
+getFirstWord text = unlines $ map (head . words) $ lines text
+
+{- |
+    Write a program that transposes the text in a file. For instance, it should convert
+    "hello\nworld\n" to "hw\neo\nlr\nll\nod\n".
+-}
+transposeText :: FilePath -> FilePath -> IO ()
+transposeText input output = do
+  let
+    transpose :: [String] -> [String]
+    transpose [] = []
+    transpose (x:xs) = case x of
+      [] -> []
+      (_:[]) -> [map head (x:xs)]
+      _ -> map head (x:xs) : transpose (map tail (x:xs))
+
+  text <- readFile input
+  writeFile output $ unlines $ transpose $ lines text
 
