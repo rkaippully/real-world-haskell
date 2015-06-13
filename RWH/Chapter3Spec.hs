@@ -2,14 +2,14 @@
    Unit tests for all problems in Chapter 3
 -}
 
-module RWH.Chapter3Spec where
+module Main where
 
 import Test.Hspec
 
 import RWH.Chapter3
 
-chapter3Specs :: IO ()
-chapter3Specs = hspec $ do
+main :: IO ()
+main = hspec $ do
 
   describe "Exercise 1 and 2" $ do
     it "returns 0 for an empty list" $ do
