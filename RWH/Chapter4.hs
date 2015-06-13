@@ -34,5 +34,5 @@ safeInit [] = Nothing
 safeInit xs = Just (allExceptLast xs)
   where
     allExceptLast (_:[]) = []
-    allExceptLast (y:ys) = [y] ++ allExceptLast ys
+    allExceptLast (y:ys) = y : allExceptLast ys
     allExceptLast [] = error "This will never happen, just to avoid a compiler warning"

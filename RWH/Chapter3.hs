@@ -9,6 +9,7 @@ module RWH.Chapter3 where
 
 import Data.List (sortBy, minimumBy)
 import Data.Function
+import Data.Maybe
 
 {- |
     Write a function that computes the number of elements in a list. To test it, ensure
@@ -142,9 +143,7 @@ turnDirections _ = []
 -}
 grahamScan :: [Point] -> [Point]
 grahamScan ps =
-  case scan ((sortBy angleOf ps) ++ [lowestPoint]) of
-   Just path -> path
-   Nothing -> error "grahamScan failed"
+  fromMaybe (error "grahamScan failed") (scan (sortBy angleOf ps ++ [lowestPoint]))
   where
     -- Lower point by y co-ordinate, use x co-ordinate if y is equal
     lowestPoint = minimumBy (\p q -> compare (py p, px p) (py q, px q)) ps
